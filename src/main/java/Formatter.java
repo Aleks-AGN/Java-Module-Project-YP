@@ -22,7 +22,10 @@ public class Formatter {
             }
         }
 
-        strBuilder.append(String.format("%.2f", price) + " " + currency);
+        strBuilder
+                .append(String.format("%.2f", price))
+                .append(" ")
+                .append(currency);
 
         return strBuilder.toString();
     }

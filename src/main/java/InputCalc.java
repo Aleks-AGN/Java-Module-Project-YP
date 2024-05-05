@@ -1,4 +1,3 @@
-import java.util.Locale;
 import java.util.Scanner;
 
 public class InputCalc {
@@ -32,14 +31,17 @@ public class InputCalc {
         while (true) {
             String productName;
             double productPrice;
+
             scanner.nextLine();
 
             while (true) {
                 System.out.println("Введите название товара:");
 
-                productName = scanner.nextLine();
+                productName = scanner.nextLine().trim();
 
-                if (calculator.getListNamesOfProducts().contains(productName)) {
+                if (productName.isEmpty()) {
+                    System.out.println("Товар не может быть без названия!");
+                } else if (calculator.getListNamesOfProducts().contains(productName)) {
                     System.out.println("Данный товар уже был добавлен в список!");
                 } else {
                     break;
@@ -47,20 +49,25 @@ public class InputCalc {
             }
 
             while (true) {
-                System.out.println("Введите стоимость товара в формате 'рубли.копейки':");
-                scanner.useLocale(Locale.US);
+                System.out.println("Введите стоимость товара в формате " +
+                        "'рубли.копейки' или 'рубли,копейки':");
 
-                if (!scanner.hasNextDouble()) {
+                String productPriceStr = scanner.nextLine().trim();
+
+                if (productPriceStr.isEmpty()) {
                     System.out.println("Введено некорректное значение стоимости!");
-                    scanner.nextLine();
                 } else {
-                    productPrice = scanner.nextDouble();
+                    productPriceStr = productPriceStr.replace(',', '.');
+                    try {
+                        productPrice = Double.parseDouble(productPriceStr);
 
-                    if (productPrice < 0) {
+                        if (productPrice < 0) {
+                            System.out.println("Введено некорректное значение стоимости!");
+                        } else {
+                            break;
+                        }
+                    } catch (Exception e) {
                         System.out.println("Введено некорректное значение стоимости!");
-                        scanner.nextLine();
-                    } else {
-                        break;
                     }
                 }
             }
